@@ -15,7 +15,7 @@ export function Navbar() {
           <Link href="/founders" className="text-muted-foreground hover:text-primary">
             Our Team
           </Link>
-          <Link href="/investors" className="text-muted-foreground hover:text-primary">
+          <Link href="/investor" className="text-muted-foreground hover:text-primary">
             Investors
           </Link>
           <Button>Get Started</Button>
