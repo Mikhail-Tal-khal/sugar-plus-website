@@ -1,11 +1,17 @@
 'use client';
 
+import React from 'react';
 import Link from 'next/link';
 import { Logo } from './logo';
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from './theme-toggle';
 import { Menu } from 'lucide-react';
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { 
+  Sheet, 
+  SheetContent, 
+  SheetTrigger,
+  SheetTitle 
+} from "@/components/ui/sheet";
 import { useState } from 'react';
 
 export function Navbar() {
@@ -20,7 +26,9 @@ export function Navbar() {
         Investors
       </Link>
       <ThemeToggle />
-      <Button className="rounded-full">Get Started</Button>
+      <Link href="/get-started">
+        <Button className="rounded-full">Get Started</Button>
+      </Link>
     </>
   );
 
@@ -40,12 +48,15 @@ export function Navbar() {
         <div className="md:hidden">
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" aria-label="Menu">
                 <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-[300px] sm:w-[400px]">
-              <div className="flex flex-col gap-6 mt-6">
+              <SheetTitle className="text-lg font-semibold mb-4">
+                Navigation Menu
+              </SheetTitle>
+              <div className="flex flex-col gap-6">
                 <NavItems />
               </div>
             </SheetContent>
