@@ -3,7 +3,6 @@ import { ReactNode } from "react";
 
 export const StatCard = ({
   icon,
-  title,
   value,
   description,
 }: {
