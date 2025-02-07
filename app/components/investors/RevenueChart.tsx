@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import React, { useMemo } from 'react';
+import React, { useMemo } from "react";
 import {
   LineChart,
   Line,
@@ -9,7 +9,7 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-} from 'recharts';
+} from "recharts";
 
 type RevenueData = {
   year: string;
@@ -23,39 +23,45 @@ type ChartConfig = {
 };
 
 export const RevenueChart = ({ data }: { data: RevenueData[] }) => {
-  const formatters = useMemo(() => ({
-    yAxis: (value: number) => `$${value}M`,
-  }), []);
+  const formatters = useMemo(
+    () => ({
+      yAxis: (value: number) => `$${value}M`,
+    }),
+    []
+  );
 
-  const chartConfig = useMemo<ChartConfig>(() => ({
-    xAxis: {
-      dataKey: "year",
-      stroke: '#000',
-      style: { fontSize: '0.875rem', fontFamily: 'inherit' }
-    },
-    yAxis: {
-      stroke: '#000',
-      style: { fontSize: '0.875rem', fontFamily: 'inherit' },
-      tickFormatter: formatters.yAxis
-    },
-    line: {
-      type: "monotone",
-      dataKey: "revenue",
-      stroke: "hsl(var(--primary))",
-      strokeWidth: 3,
-      dot: {
-        fill: "hsl(var(--primary))",
-        stroke: "hsl(var(--primary))",
-        r: 6,
-        strokeWidth: 2
+  const chartConfig = useMemo<ChartConfig>(
+    () => ({
+      xAxis: {
+        dataKey: "year",
+        stroke: "#000",
+        style: { fontSize: "0.875rem", fontFamily: "inherit" },
       },
-      activeDot: {
-        r: 8,
+      yAxis: {
+        stroke: "#000",
+        style: { fontSize: "0.875rem", fontFamily: "inherit" },
+        tickFormatter: formatters.yAxis,
+      },
+      line: {
+        type: "monotone",
+        dataKey: "revenue",
         stroke: "hsl(var(--primary))",
-        strokeWidth: 2
-      }
-    }
-  }), [formatters.yAxis]);
+        strokeWidth: 3,
+        dot: {
+          fill: "hsl(var(--primary))",
+          stroke: "hsl(var(--primary))",
+          r: 6,
+          strokeWidth: 2,
+        },
+        activeDot: {
+          r: 8,
+          stroke: "hsl(var(--primary))",
+          strokeWidth: 2,
+        },
+      },
+    }),
+    [formatters.yAxis]
+  );
 
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (!active || !payload?.length) return null;
@@ -69,24 +75,53 @@ export const RevenueChart = ({ data }: { data: RevenueData[] }) => {
     );
   };
 
-  if (!data?.length) return <div className="p-4 text-gray-500">No revenue data available</div>;
+  if (!data?.length)
+    return <div className="p-4 text-gray-500">No revenue data available</div>;
 
   return (
     <div className="w-full h-[400px]">
       <ResponsiveContainer>
-        <LineChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+        <LineChart
+          data={data}
+          margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+        >
           <defs>
             <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.1} />
-              <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0} />
+              <stop
+                offset="5%"
+                stopColor="hsl(var(--primary))"
+                stopOpacity={0.1}
+              />
+              <stop
+                offset="95%"
+                stopColor="hsl(var(--primary))"
+                stopOpacity={0}
+              />
             </linearGradient>
           </defs>
-          
+
           <CartesianGrid strokeDasharray="3 3" stroke="#eee" vertical={false} />
           <XAxis {...chartConfig.xAxis} />
           <YAxis {...chartConfig.yAxis} />
           <Tooltip content={<CustomTooltip />} />
-          <Line {...chartConfig.line} fill="url(#colorRevenue)" />
+          <Line
+            type="monotone"
+            dataKey="revenue"
+            stroke="hsl(var(--primary))"
+            strokeWidth={3}
+            dot={{
+              fill: "hsl(var(--primary))",
+              stroke: "hsl(var(--primary))",
+              r: 6,
+              strokeWidth: 2,
+            }}
+            activeDot={{
+              r: 8,
+              stroke: "hsl(var(--primary))",
+              strokeWidth: 2,
+            }}
+            fill="url(#colorRevenue)"
+          />
         </LineChart>
       </ResponsiveContainer>
     </div>
