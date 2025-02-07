@@ -4,7 +4,6 @@ import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { 
-  Smartphone, 
   Activity, 
   Bell, 
   Shield, 
@@ -143,7 +142,7 @@ const FeatureCard = ({ icon, title, description }: {
   description: string;
 }) => {
   const iconElement = React.isValidElement(icon) 
-    ? React.cloneElement(icon, { className: "h-6 w-6 text-primary" })
+    ? React.cloneElement(icon, { })
     : null;
 
   return (
