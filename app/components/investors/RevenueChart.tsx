@@ -1,37 +1,46 @@
 'use client';
 
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from 'recharts';
 
-export const RevenueChart = ({ data }: { data: { year: string; revenue: number }[] }) => {
-  if (!data || data.length === 0) {
-    return <div>No data available</div>;
-  }
+type RevenueData = {
+  year: string;
+  revenue: number;
+};
 
-  // Memoize formatting functions to prevent unnecessary re-renders
+type ChartConfig = {
+  xAxis: React.ComponentProps<typeof XAxis>;
+  yAxis: React.ComponentProps<typeof YAxis>;
+  line: React.ComponentProps<typeof Line>;
+};
+
+export const RevenueChart = ({ data }: { data: RevenueData[] }) => {
   const formatters = useMemo(() => ({
     yAxis: (value: number) => `$${value}M`,
-    tooltipValue: (value: number) => [`$${value}M`, 'Revenue'],
-    tooltipLabel: (label: string) => `Year ${label}`
   }), []);
 
-  // Memoize chart configurations
-  const chartConfig = useMemo(() => ({
+  const chartConfig = useMemo<ChartConfig>(() => ({
     xAxis: {
+      dataKey: "year",
       stroke: '#000',
-      style: {
-        fontSize: '0.875rem',
-        fontFamily: 'inherit'
-      }
+      style: { fontSize: '0.875rem', fontFamily: 'inherit' }
     },
     yAxis: {
       stroke: '#000',
-      style: {
-        fontSize: '0.875rem',
-        fontFamily: 'inherit'
-      }
+      style: { fontSize: '0.875rem', fontFamily: 'inherit' },
+      tickFormatter: formatters.yAxis
     },
     line: {
+      type: "monotone",
+      dataKey: "revenue",
       stroke: "hsl(var(--primary))",
       strokeWidth: 3,
       dot: {
@@ -46,7 +55,7 @@ export const RevenueChart = ({ data }: { data: { year: string; revenue: number }
         strokeWidth: 2
       }
     }
-  }), []);
+  }), [formatters.yAxis]);
 
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (!active || !payload?.length) return null;
@@ -60,40 +69,24 @@ export const RevenueChart = ({ data }: { data: { year: string; revenue: number }
     );
   };
 
+  if (!data?.length) return <div className="p-4 text-gray-500">No revenue data available</div>;
+
   return (
     <div className="w-full h-[400px]">
       <ResponsiveContainer>
-        <LineChart 
-          data={data} 
-          margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-        >
+        <LineChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
           <defs>
             <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.1}/>
-              <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
+              <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.1} />
+              <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0} />
             </linearGradient>
           </defs>
-          <CartesianGrid 
-            strokeDasharray="3 3" 
-            stroke="#eee" 
-            vertical={false}
-          />
-          <XAxis 
-            dataKey="year"
-            {...chartConfig.xAxis}
-          />
-          <YAxis
-            tickFormatter={formatters.yAxis}
-            {...chartConfig.yAxis}
-          />
-          <Tooltip content={CustomTooltip} />
-          <Line
-            type="monotone"
-            dataKey="revenue"
-            {...chartConfig.line}
-            fillOpacity={1}
-            fill="url(#colorRevenue)"
-          />
+          
+          <CartesianGrid strokeDasharray="3 3" stroke="#eee" vertical={false} />
+          <XAxis {...chartConfig.xAxis} />
+          <YAxis {...chartConfig.yAxis} />
+          <Tooltip content={<CustomTooltip />} />
+          <Line {...chartConfig.line} fill="url(#colorRevenue)" />
         </LineChart>
       </ResponsiveContainer>
     </div>

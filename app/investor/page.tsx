@@ -2,38 +2,19 @@
 
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { RevenueChart } from '@/app/components/investors/RevenueChart';
 import { TrendingUp, Users, Target, DollarSign, Mail, Phone, MapPin, LineChart } from 'lucide-react';
 import { LineChart as RechartsLineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { futureInsights } from "@/lib/investor-data";
 
-const revenueData = [
+// ... (keep your demoData and futureInsights arrays the same)
+
+const demoData = [ // ← Only single space here
   { year: '2024', revenue: 2.5 },
   { year: '2025', revenue: 5.8 },
   { year: '2026', revenue: 12.0 },
   { year: '2027', revenue: 25.0 },
   { year: '2028', revenue: 45.0 },
-];
-
-const futureInsights = [
-  {
-    year: 2025,
-    title: "Market Expansion",
-    description: "Expansion into European and Asian markets, targeting 500,000+ active users."
-  },
-  {
-    year: 2026,
-    title: "AI Integration",
-    description: "Advanced AI-powered predictive analytics for personalized diabetes management."
-  },
-  {
-    year: 2027,
-    title: "Healthcare Partnerships",
-    description: "Strategic partnerships with major healthcare providers and insurance companies."
-  },
-  {
-    year: 2028,
-    title: "Global Leadership",
-    description: "Becoming the leading digital diabetes management platform worldwide."
-  }
 ];
 
 export default function InvestorsPage() {
@@ -101,24 +82,7 @@ export default function InvestorsPage() {
           <div className="max-w-4xl mx-auto mb-16">
             <Card className="p-6">
               <div className="h-[400px] w-full">
-                <ResponsiveContainer width="100%" height="100%">
-                  <RechartsLineChart data={revenueData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="year" />
-                    <YAxis />
-                    <Tooltip 
-                      formatter={(value) => [`$${value}M`, 'Revenue']}
-                      labelFormatter={(label) => `Year ${label}`}
-                    />
-                    <Line 
-                      type="monotone" 
-                      dataKey="revenue" 
-                      stroke="hsl(var(--primary))" 
-                      strokeWidth={2}
-                      dot={{ fill: "hsl(var(--primary))" }}
-                    />
-                  </RechartsLineChart>
-                </ResponsiveContainer>
+                <RevenueChart data={demoData} />
               </div>
             </Card>
           </div>
