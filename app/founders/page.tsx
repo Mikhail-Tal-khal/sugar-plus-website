@@ -5,13 +5,13 @@ import { Github, Linkedin, Mail } from 'lucide-react';
 
 const founders = [
   {
-    name: 'Dr. Sarah Chen',
-    role: 'CEO & Medical Director',
+    name: 'Rereu Lemein',
+    role: 'Software Engineer',
     image: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=500&q=80',
     bio: 'Former Head of Endocrinology at Stanford Medical Center with 15+ years experience in diabetes care.',
     links: {
       linkedin: '#',
-      email: 'sarah@sugarplus.com'
+      email: 'rereulemein@gmail.com'
     }
   },
   {
@@ -39,7 +39,7 @@ const founders = [
 
 export default function FoundersPage() {
   return (
-    <div className="min-h-screen bg-background py-24">
+    <div className="min-h-screen bg-background py-16">
       <div className="container mx-auto px-4">
         <div className="max-w-2xl mx-auto text-center mb-16">
           <h1 className="text-4xl font-bold text-black mb-4">Meet Our Founders</h1>
